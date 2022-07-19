@@ -21,13 +21,43 @@ const api = remultMiddleware({
 });
 
 
-export function handler(
+export async function handler(
     req: Request
 ) {
-    console.log(req);
 
-    const res = new Response();
-    api(req, res)
-    return res;
+
+    const url = new URL(req.url);
+
+    let query: any = {};
+    url.searchParams.forEach((val, key) => {
+
+        let current = query[key];
+        if (!current) {
+            query[key] = val;
+            return;
+        }
+        if (Array.isArray(current)) {
+            current.push(val);
+            return;
+        }
+        query[key] = [current, val]
+    });
+
+    const theReq = {
+        method: req.method,
+        originalUrl: req.url,
+        path: url.pathname,
+        body: req.bodyUsed ? await req.json() : undefined,
+        params: {},
+        query
+    };
+
+    return new Promise<Response>((res) => {
+        api(theReq, {
+            json: (data: any) => {
+                res(new Response(JSON.stringify(data)))
+            }
+        })
+    });
 
 }
