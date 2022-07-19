@@ -4,8 +4,10 @@
     "preact": "https://esm.sh/preact@10.8.2",
     "preact/": "https://esm.sh/preact@10.8.2/",
     "preact-render-to-string": "https://esm.sh/preact-render-to-string@5.2.0?deps=preact@10.8.2",
-    "remult": "https://esm.sh/remult@0.13.29",
-    "remult/": "https://esm.sh/remult@0.13.29/",
-    "fs":"https://deno.land/std@0.95.0/fs/mod.ts"
+    "remult": "https://cdn.skypack.dev/remult@0.14.11?dts",
+    "remult/remult-middleware": "https://cdn.skypack.dev/remult@0.14.11/remult-middleware?dts",
+    "remult/postgres/schema-builder": "https://cdn.skypack.dev/remult@0.14.11/postgres/schema-builder?dts",
+    "path": "https://deno.land/std/path/mod.ts",
+    "fs": "https://deno.land/std@0.147.0/node/fs.ts"
   }
 }
