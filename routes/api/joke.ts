@@ -1,6 +1,9 @@
 import { HandlerContext } from "$fresh/server.ts";
+import { Entity, EntityBase, Fields, InMemoryDataProvider, JsonDataProvider, JsonEntityStorage, Remult } from "remult";
+import * as path from "https://deno.land/std/path/mod.ts";
+import { existsSync } from "https://deno.land/std/fs/mod.ts";
 
-import { remultExpress } from 'remult/remult-express';
+
 
 // Jokes courtesy of https://punsandoneliners.com/randomness/programmer-jokes/
 const JOKES = [
@@ -16,15 +19,48 @@ const JOKES = [
   "An SEO expert walked into a bar, pub, inn, tavern, hostelry, public house.",
 ];
 
-/*
-const api = remultExpress({
-  bodyParser: false
-});
-*/
 
-export const handler = (_req: Request, _ctx: HandlerContext): Response => {
+@Entity("tasks", { allowApiCrud: true })
+class Task extends EntityBase {
+  @Fields.autoIncrement()
+  id = 0;
+  @Fields.string()
+  title = '';
+}
+
+
+export class JsonEntityFileStorage implements JsonEntityStorage {
+  getItem(entityDbName: string): string {
+    let fn = path.join(this.folderPath, entityDbName) + '.json';
+    if (existsSync(fn)) {
+      return new TextDecoder().decode( Deno.readFileSync(fn))
+    }
+    return undefined!;
+  }
+  setItem(entityDbName: string, json: string) {
+    if (!existsSync(this.folderPath)) {
+      Deno.mkdirSync(this.folderPath);
+    }
+    return Deno.writeFileSync(path.join(this.folderPath, entityDbName) + '.json', new TextEncoder().encode(json));
+  }
+  constructor(private folderPath: string) { }
+}
+
+
+
+const remult =// new Remult(new InMemoryDataProvider());
+  new Remult(new JsonDataProvider(new JsonEntityFileStorage('./db')));
+
+
+export const handler = async (_req: Request, _ctx: HandlerContext): Promise<Response> => {
   //await util.promisify((api as any))(_req, res);
   const randomIndex = Math.floor(Math.random() * JOKES.length);
   const body = JOKES[randomIndex];
+  const repo = remult.repo(Task);
+  await repo.insert([{ title: "abc" }])
+
+  return new Response(JSON.stringify({ "name:": "noam", "count": await repo.count() }));
   return new Response(body);
 };
+
+
