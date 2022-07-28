@@ -1,6 +1,6 @@
 import { remultFresh } from "remult/remult-fresh";
 import { Task } from "../model/task.ts";
-import { createPostgresConnection } from "https://deno.land/x/remult@v0.15.0-rc.1/postgres.ts";
+import { createPostgresConnection } from "https://deno.land/x/remult/postgres.ts";
 
 export const remultServer = remultFresh({
   entities: [Task],
