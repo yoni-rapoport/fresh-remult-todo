@@ -1,5 +1,3 @@
-// islands/todos.tsx
-
 /** @jsx h */
 import { h } from "preact";
 import { Remult } from "remult";

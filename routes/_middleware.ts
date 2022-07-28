@@ -1,5 +1,3 @@
-// routes/_middleware.ts
-
 import { remultFresh } from "remult/remult-fresh";
 import { Task } from "../model/task.ts";
 import { createPostgresConnection } from "https://raw.githubusercontent.com/remult/remult/master/projects/deno/postgres.ts";
