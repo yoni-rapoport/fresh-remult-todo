@@ -4,7 +4,7 @@
     "preact": "https://esm.sh/preact@10.8.2",
     "preact/": "https://esm.sh/preact@10.8.2/",
     "preact-render-to-string": "https://esm.sh/preact-render-to-string@5.2.0?deps=preact@10.8.2",
-    "remult": "https://cdn.skypack.dev/remult?dts",
-    "remult/remult-fresh": "https://cdn.skypack.dev/remult/remult-fresh?dts"
+    "remult": "https://cdn.skypack.dev/remult@latest?dts",
+    "remult/remult-fresh": "https://cdn.skypack.dev/remult@latest/remult-fresh?dts"
   }
 }
